@@ -1,145 +1,780 @@
+/* ============================================================
+   ABSolute Fitness GYM — Professional Design System
+   Tailwind v4 + Custom CSS Architecture
+   ============================================================ */
+
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,300..900;1,14..32,300..900&display=swap');
+
+/* ── Tailwind v4 Core ── */
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
 
+/* ── Dark Variant ── */
 @custom-variant dark (&:is(.dark *));
 
+/* ============================================================
+   DESIGN TOKENS — @theme
+   ============================================================ */
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  /* Radii */
+  --radius-sm:  calc(var(--radius) - 4px);
+  --radius-md:  calc(var(--radius) - 2px);
+  --radius-lg:  var(--radius);
+  --radius-xl:  calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
 
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
+  /* Semantic color mappings */
+  --color-background:         var(--background);
+  --color-foreground:         var(--foreground);
+  --color-card:               var(--card);
+  --color-card-foreground:    var(--card-foreground);
+  --color-popover:            var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
+  --color-primary:            var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
+  --color-secondary:          var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
+  --color-muted:              var(--muted);
+  --color-muted-foreground:   var(--muted-foreground);
+  --color-accent:             var(--accent);
+  --color-accent-foreground:  var(--accent-foreground);
+  --color-destructive:        var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
-  --color-whatsapp: var(--whatsapp);
+  --color-border:             var(--border);
+  --color-input:              var(--input);
+  --color-ring:               var(--ring);
+  --color-surface:            var(--surface);
+  --color-surface-2:          var(--surface-2);
+  --color-whatsapp:           var(--whatsapp);
+  --color-gold:               var(--gold);
 
-  --font-display: "Oswald", "Bebas Neue", system-ui, sans-serif;
+  /* Typography */
+  --font-display: "Bebas Neue", "Oswald", system-ui, sans-serif;
+  --font-body:    "Inter", system-ui, sans-serif;
 
-  --animate-marquee: marquee 35s linear infinite;
-  --animate-pulse-glow: pulse-glow 2.4s ease-in-out infinite;
-  --animate-fade-up: fade-up 0.8s ease-out both;
+  /* Named animations */
+  --animate-marquee:     marquee 35s linear infinite;
+  --animate-pulse-glow:  pulse-glow 2.4s ease-in-out infinite;
+  --animate-fade-up:     fade-up 0.7s ease-out both;
+  --animate-fade-in:     fade-in 0.5s ease-out both;
+  --animate-slide-left:  slide-left 0.7s ease-out both;
+  --animate-slide-right: slide-right 0.7s ease-out both;
 }
 
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
 @keyframes marquee {
   from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 oklch(0.62 0.24 25 / 0.55); }
-  50% { box-shadow: 0 0 0 18px oklch(0.62 0.24 25 / 0); }
-}
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { transform: translateX(-50%); }
 }
 
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.62 0.24 25 / 0.55); }
+  50%       { box-shadow: 0 0 0 18px oklch(0.62 0.24 25 / 0); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-left {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-right {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scroll-pulse {
+  0%, 100% { transform: scaleY(1); opacity: 1; }
+  50%       { transform: scaleY(0.4); opacity: 0.4; }
+}
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES — Global Root
+   ============================================================ */
 :root {
   --radius: 0.75rem;
 
-  /* Dark luxury theme (single theme — gym is always dark) */
-  --background: oklch(0.12 0.01 20);
-  --foreground: oklch(0.98 0.005 20);
-  --surface: oklch(0.16 0.012 20);
-  --surface-2: oklch(0.20 0.015 20);
+  /* ── Background layers ── */
+  --background:   oklch(0.08 0.008 20);
+  --bg-section-alt: oklch(0.10 0.008 20);
+  --foreground:   oklch(0.98 0.005 20);
 
-  --card: oklch(0.16 0.012 20);
-  --card-foreground: oklch(0.98 0.005 20);
-  --popover: oklch(0.14 0.01 20);
-  --popover-foreground: oklch(0.98 0.005 20);
+  /* ── Surface layers ── */
+  --surface:      oklch(0.13 0.010 20);
+  --surface-2:    oklch(0.17 0.012 20);
+  --surface-3:    oklch(0.21 0.014 20);
 
-  /* Brand red */
-  --primary: oklch(0.62 0.24 25);
+  /* ── Card ── */
+  --card:             oklch(0.13 0.010 20);
+  --card-foreground:  oklch(0.98 0.005 20);
+
+  /* ── Popover ── */
+  --popover:             oklch(0.11 0.008 20);
+  --popover-foreground:  oklch(0.98 0.005 20);
+
+  /* ── Brand red ── */
+  --primary:            oklch(0.62 0.24 25);
+  --primary-dark:       oklch(0.48 0.22 22);
   --primary-foreground: oklch(0.99 0 0);
+  --primary-glow:       oklch(0.62 0.24 25 / 0.35);
+  --primary-subtle:     oklch(0.62 0.24 25 / 0.08);
 
-  --secondary: oklch(0.22 0.015 20);
+  /* ── Secondary ── */
+  --secondary:            oklch(0.20 0.012 20);
   --secondary-foreground: oklch(0.98 0.005 20);
-  --muted: oklch(0.20 0.012 20);
-  --muted-foreground: oklch(0.72 0.02 20);
-  --accent: oklch(0.62 0.24 25);
+
+  /* ── Muted ── */
+  --muted:            oklch(0.18 0.010 20);
+  --muted-foreground: oklch(0.68 0.018 20);
+
+  /* ── Accent ── */
+  --accent:            oklch(0.62 0.24 25);
   --accent-foreground: oklch(0.99 0 0);
-  --destructive: oklch(0.58 0.22 27);
+
+  /* ── Destructive ── */
+  --destructive:            oklch(0.58 0.22 27);
   --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(1 0 0 / 0.08);
-  --input: oklch(1 0 0 / 0.12);
-  --ring: oklch(0.62 0.24 25);
 
+  /* ── Borders & inputs ── */
+  --border: oklch(1 0 0 / 0.09);
+  --border-accent: oklch(0.62 0.24 25 / 0.35);
+  --input:  oklch(1 0 0 / 0.13);
+  --ring:   oklch(0.62 0.24 25);
+
+  /* ── Brand extras ── */
   --whatsapp: oklch(0.72 0.18 150);
+  --gold:     oklch(0.82 0.16 75);
 
-  --gradient-hero: radial-gradient(ellipse at top, oklch(0.32 0.18 25 / 0.55), transparent 60%),
-    linear-gradient(180deg, oklch(0.10 0.01 20) 0%, oklch(0.08 0.01 20) 100%);
-  --gradient-red: linear-gradient(135deg, oklch(0.62 0.24 25), oklch(0.48 0.22 22));
-  --shadow-glow: 0 20px 60px -20px oklch(0.62 0.24 25 / 0.55);
-  --shadow-card: 0 10px 40px -10px oklch(0 0 0 / 0.6);
+  /* ── Gradients ── */
+  --gradient-red:  linear-gradient(135deg, oklch(0.62 0.24 25), oklch(0.48 0.22 22));
+  --gradient-hero: radial-gradient(ellipse at top, oklch(0.32 0.18 25 / 0.5), transparent 60%),
+                   linear-gradient(180deg, oklch(0.08 0.01 20) 0%, oklch(0.06 0.01 20) 100%);
+  --gradient-dark: linear-gradient(180deg, var(--background) 0%, var(--bg-section-alt) 100%);
+
+  /* ── Shadows ── */
+  --shadow-glow:    0 20px 60px -20px oklch(0.62 0.24 25 / 0.55);
+  --shadow-glow-sm: 0 8px 30px -8px oklch(0.62 0.24 25 / 0.4);
+  --shadow-card:    0 10px 40px -10px oklch(0 0 0 / 0.65);
+  --shadow-heavy:   0 25px 70px -15px oklch(0 0 0 / 0.8);
+
+  /* ── Transitions ── */
+  --transition-fast:   all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base:   all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow:   all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.dark { color-scheme: dark; }
-
+/* ============================================================
+   BASE LAYER
+   ============================================================ */
 @layer base {
-  * { border-color: var(--color-border); }
-  html { scroll-behavior: smooth; }
+  *, *::before, *::after {
+    border-color: var(--color-border);
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: "Inter", system-ui, -apple-system, sans-serif;
-    -webkit-font-smoothing: antialiased;
+    font-family: var(--font-body);
+    line-height: 1.65;
+    overflow-x: hidden;
   }
+
+  /* Headings use display font */
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    letter-spacing: 0.01em;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
+    line-height: 1;
   }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar        { width: 5px; }
+  ::-webkit-scrollbar-track  { background: var(--background); }
+  ::-webkit-scrollbar-thumb  { background: var(--primary); border-radius: 10px; }
+
+  /* Selection */
+  ::selection {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  /* Focus ring */
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Smooth image rendering */
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  a { color: inherit; text-decoration: none; }
 }
 
+/* ============================================================
+   COMPONENT LAYER — Reusable UI building blocks
+   ============================================================ */
 @layer components {
-  .container-x { @apply mx-auto w-full max-w-7xl px-5 md:px-8; }
-  .glass {
-    background: linear-gradient(180deg, oklch(1 0 0 / 0.04), oklch(1 0 0 / 0.01));
-    backdrop-filter: blur(14px);
-    border: 1px solid oklch(1 0 0 / 0.08);
+
+  /* ── Layout ── */
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-5 md:px-8;
   }
+
+  .section {
+    @apply py-20 md:py-28;
+  }
+
+  .section-alt {
+    @apply py-20 md:py-28;
+    background: var(--bg-section-alt);
+  }
+
+  /* ── Section header ── */
+  .section-header {
+    @apply mb-14 text-center;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    @apply text-[clamp(36px,6vw,68px)] leading-none;
+  }
+
+  .section-subtitle {
+    @apply mt-4 text-muted-foreground max-w-xl mx-auto text-base leading-relaxed;
+  }
+
+  /* ── Eyebrow label ── */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.3em] mb-4;
+    color: var(--primary);
+  }
+
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary);
+    animation: var(--animate-pulse-glow);
+  }
+
+  /* ── Divider ── */
+  .divider-red {
+    width: 56px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--primary), transparent);
+    margin: 20px 0;
+  }
+
+  /* ── Buttons — shared base styles inlined (Tailwind v4: no @apply on custom classes) ── */
+  .btn-hero,
+  .btn-outline,
+  .btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.5rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.875rem 1.75rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    line-height: 1;
+    border: none;
+  }
+
+  .btn-hero {
+    color: #ffffff;
+    background: var(--gradient-red);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .btn-hero:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+    box-shadow: var(--shadow-glow), 0 12px 30px oklch(0 0 0 / 0.4);
+  }
+
+  .btn-hero:active { transform: translateY(0); }
+
+  .btn-outline {
+    color: var(--foreground);
+    background: transparent;
+    border: 1.5px solid oklch(1 0 0 / 0.2);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-subtle);
+  }
+
+  .btn-whatsapp {
+    color: #ffffff;
+    background: var(--whatsapp);
+    box-shadow: 0 0 30px oklch(0.72 0.18 150 / 0.3);
+  }
+
+  .btn-whatsapp:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+    box-shadow: 0 0 50px oklch(0.72 0.18 150 / 0.45);
+  }
+
+  .btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+
+  /* ── Glass card ── */
+  .glass {
+    background: linear-gradient(180deg, oklch(1 0 0 / 0.05), oklch(1 0 0 / 0.02));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+  }
+
+  .glass-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    transition: var(--transition-base);
+  }
+
+  .glass-card:hover {
+    border-color: var(--border-accent);
+    box-shadow: var(--shadow-glow-sm), var(--shadow-card);
+    transform: translateY(-4px);
+  }
+
+  /* ── Card hover lift ── */
+  .card-lift {
+    transition: var(--transition-base);
+    border: 1px solid var(--border);
+  }
+
+  .card-lift:hover {
+    border-color: var(--border-accent);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-glow-sm), var(--shadow-card);
+  }
+
+  /* ── Text gradient ── */
   .text-gradient-red {
     background: var(--gradient-red);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
-  .btn-hero {
-    @apply inline-flex items-center justify-center gap-2 rounded-md px-6 py-3 text-sm font-bold uppercase tracking-wider transition-all;
+
+  .text-gold {
+    color: var(--gold);
+  }
+
+  /* ── Logo brand ── */
+  .brand-logo-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
     background: var(--gradient-red);
-    color: var(--primary-foreground);
-    box-shadow: var(--shadow-glow);
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    box-shadow: var(--shadow-glow-sm);
+    flex-shrink: 0;
   }
-  .btn-hero:hover { transform: translateY(-2px); filter: brightness(1.08); }
-  .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 rounded-md px-6 py-3 text-sm font-bold uppercase tracking-wider transition-all;
-    border: 1px solid oklch(1 0 0 / 0.2);
-    color: var(--foreground);
+
+  /* ── Scarcity announcement bar ── */
+  .announcement-bar {
+    background: var(--gradient-red);
+    @apply flex items-center justify-center gap-3 py-2.5 px-4 text-center text-xs font-bold uppercase tracking-wider text-white;
+    position: relative;
+    z-index: 60;
   }
-  .btn-outline:hover { background: oklch(1 0 0 / 0.06); border-color: var(--primary); }
-  .section { @apply py-20 md:py-28; }
-  .eyebrow {
-    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em];
+
+  /* ── Input ── */
+  .input-field {
+    @apply w-full rounded-lg px-4 py-3.5 text-sm text-foreground outline-none transition-all duration-200 placeholder:text-muted-foreground;
+    background: var(--surface-2);
+    border: 1.5px solid var(--border);
+  }
+
+  .input-field:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+  }
+
+  .input-label {
+    @apply mb-1.5 block text-[11px] font-bold uppercase tracking-[1.5px];
+    color: var(--muted-foreground);
+  }
+
+  /* ── Tag / Badge pill ── */
+  .tag-pill {
+    @apply rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wider;
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    color: var(--muted-foreground);
+  }
+
+  .tag-pill-red {
+    @apply rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider;
+    background: var(--primary-subtle);
+    border: 1px solid var(--border-accent);
     color: var(--primary);
   }
+
+  /* ── Rating stars ── */
+  .stars-gold {
+    color: var(--gold);
+    letter-spacing: 0.15em;
+  }
+
+  /* ── Hero stat item ── */
+  .hero-stat {
+    @apply flex flex-col;
+  }
+
+  .hero-stat-num {
+    font-family: var(--font-display);
+    @apply text-[42px] leading-none;
+    color: var(--primary);
+  }
+
+  .hero-stat-label {
+    @apply text-[11px] uppercase tracking-[2px] mt-1;
+    color: var(--muted-foreground);
+  }
+
+  /* ── Scroll indicator ── */
+  .scroll-indicator {
+    @apply absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2;
+  }
+
+  .scroll-indicator-text {
+    @apply text-[10px] uppercase tracking-[3px];
+    color: var(--muted-foreground);
+  }
+
+  .scroll-indicator-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--primary), transparent);
+    animation: scroll-pulse 1.6s ease-in-out infinite;
+  }
+
+  /* ── Nav link ── */
+  .nav-link {
+    @apply text-[13px] font-semibold uppercase tracking-wider transition-all duration-200;
+    color: var(--muted-foreground);
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.3s ease;
+    border-radius: 1px;
+  }
+
+  .nav-link:hover { color: var(--foreground); }
+  .nav-link:hover::after { width: 100%; }
+
+  /* ── Pain point card accent bar ── */
+  .pain-card-bar {
+    position: absolute;
+    left: 0; top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--primary);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.35s ease;
+    border-radius: 0 2px 2px 0;
+  }
+
+  .pain-card:hover .pain-card-bar { transform: scaleY(1); }
+
+  /* ── Why card overlay ── */
+  .why-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--primary-subtle) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .why-card:hover .why-card-overlay { opacity: 1; }
+
+  /* ── Section divider line ── */
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0;
+  }
+
+  /* ── Popular plan badge ── */
+  .popular-badge {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gradient-red);
+    @apply rounded-b-xl px-5 py-1.5 text-[10px] font-black uppercase tracking-[2px] text-white whitespace-nowrap;
+  }
+
+  /* ── Trainer social button ── */
+  .trainer-social {
+    @apply flex h-9 w-9 items-center justify-center rounded-full text-sm transition-all duration-200;
+    background: oklch(1 0 0 / 0.12);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+  }
+
+  .trainer-card:hover .trainer-social { opacity: 1; }
+
+  .trainer-social:hover {
+    background: var(--primary);
+  }
+
+  /* ── Gallery overlay ── */
+  .gallery-overlay {
+    @apply absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-300;
+    background: oklch(0.62 0.24 25 / 0.55);
+  }
+
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+  .gallery-overlay-icon {
+    @apply text-4xl text-white transition-transform duration-300;
+    transform: scale(0.75);
+  }
+
+  .gallery-item:hover .gallery-overlay-icon { transform: scale(1); }
+
+  /* ── FAQ accordion ── */
+  .faq-icon {
+    @apply flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-lg transition-all duration-300;
+    border: 1.5px solid var(--border);
+    color: var(--primary);
+  }
+
+  .faq-item.open .faq-icon {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .faq-item.open .faq-answer { max-height: 240px; }
+
+  /* ── Reveal animations (JS-driven via IntersectionObserver) ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-36px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+
+  .reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(36px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+
+  .reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ── WhatsApp float tooltip ── */
+  .wa-tooltip {
+    @apply pointer-events-none whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold text-white opacity-0 transition-all duration-300;
+    background: oklch(0 0 0 / 0.88);
+    border: 1px solid oklch(0.72 0.18 150 / 0.4);
+    transform: translateX(8px);
+  }
+
+  .wa-float-wrap:hover .wa-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ── Testimonial Google G ── */
+  .google-g {
+    @apply absolute top-5 right-5 text-xl font-black;
+    color: #4285F4;
+    font-family: 'Arial', sans-serif;
+  }
+
+  /* ── Stats divider ── */
+  .stat-divider {
+    width: 1px;
+    background: var(--border);
+    align-self: stretch;
+    margin: 8px 0;
+  }
+}
+
+/* ============================================================
+   UTILITY LAYER — One-off helpers
+   ============================================================ */
+@layer utilities {
+  /* Background shortcuts using CSS vars */
+  .bg-surface   { background: var(--surface); }
+  .bg-surface-2 { background: var(--surface-2); }
+  .bg-surface-3 { background: var(--surface-3); }
+  .bg-section-alt { background: var(--bg-section-alt); }
+
+  /* Border shortcuts */
+  .border-accent  { border-color: var(--border-accent); }
+  .border-primary-glow { border-color: var(--primary-glow); }
+
+  /* Gradient backgrounds */
+  .bg-gradient-red  { background: var(--gradient-red); }
+  .bg-gradient-hero { background: var(--gradient-hero); }
+  .bg-gradient-dark { background: var(--gradient-dark); }
+
+  /* Shadow utilities */
+  .shadow-glow    { box-shadow: var(--shadow-glow); }
+  .shadow-glow-sm { box-shadow: var(--shadow-glow-sm); }
+  .shadow-card    { box-shadow: var(--shadow-card); }
+  .shadow-heavy   { box-shadow: var(--shadow-heavy); }
+
+  /* Font family */
+  .font-display { font-family: var(--font-display); }
+  .font-body    { font-family: var(--font-body); }
+
+  /* Primary color text */
+  .text-primary-color { color: var(--primary); }
+
+  /* Gold text */
+  .text-gold { color: var(--gold); }
+
+  /* Transition shortcuts */
+  .transition-fast { transition: var(--transition-fast); }
+  .transition-base { transition: var(--transition-base); }
+  .transition-slow { transition: var(--transition-slow); }
+
+  /* Image cover */
+  .img-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Absolute fill */
+  .abs-fill {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Gradient overlay helpers */
+  .overlay-dark {
+    background: linear-gradient(180deg, oklch(0 0 0 / 0.55) 0%, oklch(0 0 0 / 0.85) 70%, oklch(0 0 0 / 1) 100%);
+  }
+
+  .overlay-dark-bottom {
+    background: linear-gradient(to top, oklch(0 0 0 / 0.95) 0%, transparent 55%);
+  }
+
+  .overlay-primary {
+    background: oklch(0.62 0.24 25 / 0.55);
+  }
+
+  /* Top accent line */
+  .top-accent-line::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), transparent);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  /* Left accent bar (for pain cards) */
+  .left-accent-bar::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 3px; height: 100%;
+    background: var(--primary);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.35s ease;
+    border-radius: 0 2px 2px 0;
+  }
+
+  .left-accent-bar:hover::before { transform: scaleY(1); }
+
+  /* ── Responsive text sizes ── */
+  .text-hero { font-size: clamp(52px, 9vw, 108px); }
+  .text-display { font-size: clamp(38px, 6vw, 72px); }
+  .text-section { font-size: clamp(32px, 5vw, 62px); }
 }

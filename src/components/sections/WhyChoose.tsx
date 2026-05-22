@@ -1,39 +1,43 @@
-import {
-  Dumbbell, Users, ShieldCheck, Wind, Trophy, HeartPulse, Activity, Target,
-} from "lucide-react";
-
-const CARDS = [
-  { icon: Users, title: "Certified Trainers", desc: "Internationally certified coaches who actually care about your progress." },
-  { icon: Dumbbell, title: "Modern Equipment", desc: "Imported strength machines, free weights and cardio rigs." },
-  { icon: Activity, title: "CrossFit Zone", desc: "Dedicated functional training and CrossFit setup." },
-  { icon: Target, title: "Personal Attention", desc: "Small batches with real one-on-one coaching." },
-  { icon: Wind, title: "Air-Conditioned", desc: "Spacious, hygienic, fully AC floors designed for performance." },
-  { icon: HeartPulse, title: "Cardio Zone", desc: "Latest treadmills, ellipticals, rowing & cycling machines." },
-  { icon: ShieldCheck, title: "Safe & Inclusive", desc: "Beginner-friendly culture, judgement-free, women-safe." },
-  { icon: Trophy, title: "Transformation Support", desc: "Nutrition, planning, tracking — built for results." },
+const cards = [
+  { icon: "🎓", title: "Certified Trainers", text: "Nationally certified professionals with expertise in strength, cardio & specialized programs." },
+  { icon: "⚙️", title: "Modern Equipment", text: "Premium imported machines and free weights for every muscle group and training style." },
+  { icon: "🏆", title: "CrossFit Zone", text: "Dedicated functional training area — battle ropes, kettlebells, rig setups and more." },
+  { icon: "💰", title: "Affordable Plans", text: "Premium fitness at prices that work for Kolkata. Flexible monthly, quarterly & yearly plans." },
+  { icon: "👁️", title: "Personal Attention", text: "Trainers who know your name, your goals, and track your progress individually." },
+  { icon: "🏟️", title: "Spacious Floors", text: "Smart layout design prevents overcrowding. Comfortable at any time of day." },
+  { icon: "❤️", title: "Cardio Zone", text: "Full cardio floor — treadmills, ellipticals, cycles and rowing machines, all premium grade." },
+  { icon: "🔄", title: "Transformation Support", text: "End-to-end support from Day 1 onboarding to milestone celebrations. We're with you." },
 ];
 
 export function WhyChoose() {
   return (
-    <section className="section">
+    <section id="why-us" className="section" style={{ background: "#080808" }}>
       <div className="container-x">
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="eyebrow"><span className="h-px w-8 bg-primary" /> Why Choose Us</div>
-          <h2 className="mt-4 text-4xl font-black md:text-5xl">Built different. Built for <span className="text-gradient-red">results</span>.</h2>
-          <p className="mt-4 text-muted-foreground">
-            Every detail of ABSolute Fitness is engineered around the only thing that matters — your transformation.
+        <div className="mb-14 text-center">
+          <div className="eyebrow mb-4">Why ABSolute Fitness</div>
+          <h2 className="font-display text-5xl md:text-6xl">
+            8 Reasons To <span className="text-gradient-red">Choose Us</span>
+          </h2>
+          <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
+            We've built everything around your transformation. Every single detail matters.
           </p>
         </div>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {CARDS.map((c) => (
-            <div key={c.title} className="glass group relative overflow-hidden rounded-xl p-6 transition-all hover:-translate-y-1 hover:border-primary">
-              <div className="mb-4 grid h-12 w-12 place-items-center rounded-lg bg-[var(--gradient-red)] text-primary-foreground shadow-[var(--shadow-glow)]">
-                <c.icon className="h-5 w-5" />
+        <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
+          {cards.map((c) => (
+            <div
+              key={c.title}
+              className="group relative overflow-hidden rounded-xl border border-border p-6 text-center transition-all duration-300 hover:-translate-y-1.5 hover:border-primary hover:shadow-[0_0_40px_rgba(232,0,13,0.2)]"
+              style={{ background: "var(--surface)" }}
+            >
+              {/* Red gradient overlay on hover */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                style={{ background: "linear-gradient(135deg, rgba(232,0,13,0.08) 0%, transparent 100%)" }} />
+              <div className="relative z-10">
+                <div className="text-5xl mb-4">{c.icon}</div>
+                <h3 className="font-display text-xl mb-2">{c.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{c.text}</p>
               </div>
-              <h3 className="text-lg font-bold">{c.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{c.desc}</p>
-              <div className="pointer-events-none absolute -bottom-12 -right-12 h-32 w-32 rounded-full bg-primary/10 opacity-0 blur-2xl transition-opacity group-hover:opacity-100" />
             </div>
           ))}
         </div>

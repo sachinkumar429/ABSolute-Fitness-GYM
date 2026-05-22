@@ -1,73 +1,129 @@
 import { Link } from "@tanstack/react-router";
 import { Menu, X, Phone } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const NAV = [
-  { to: "/", label: "Home" },
-  { to: "/about", label: "About" },
-  { to: "/services", label: "Services" },
-  { to: "/membership", label: "Membership" },
-  { to: "/contact", label: "Contact" },
+  { href: "#about",         label: "About" },
+  { href: "#services",      label: "Services" },
+  { href: "#trainers",      label: "Trainers" },
+  { href: "#membership",    label: "Plans" },
+  { href: "#testimonials",  label: "Reviews" },
+  { href: "#contact",       label: "Contact" },
 ] as const;
 
 export function Header() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen]       = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 72);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-xl">
-      <div className="container-x flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="grid h-9 w-9 place-items-center rounded-md bg-[var(--gradient-red)] font-display text-lg font-bold">
-            A
-          </div>
-          <div className="leading-none">
-            <div className="font-display text-base font-bold tracking-wider">ABSolute</div>
-            <div className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Fitness Gym</div>
-          </div>
-        </Link>
+    <>
+      {/* ── Main Header ── */}
+      <header
+        className={[
+          "sticky top-0 z-50 transition-all duration-300",
+          scrolled
+            ? "border-b border-border bg-background/95 backdrop-blur-xl shadow-[0_4px_30px_oklch(0_0_0/0.5)]"
+            : "bg-transparent",
+        ].join(" ")}
+      >
+        <div className="container-x flex h-16 items-center justify-between">
 
-        <nav className="hidden items-center gap-8 md:flex">
-          {NAV.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              className="text-sm font-semibold uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
-              activeProps={{ className: "text-foreground" }}
-            >
-              {n.label}
-            </Link>
-          ))}
-        </nav>
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-3" aria-label="ABSolute Fitness GYM Home">
+            <div className="brand-logo-icon">A</div>
+            <div className="leading-none">
+              <div className="font-display text-[18px] tracking-wider leading-none">
+                <span className="text-gradient-red">ABS</span>olute
+              </div>
+              <div className="text-[9px] uppercase tracking-[0.3em] text-muted-foreground mt-0.5">
+                Fitness GYM · Kasba
+              </div>
+            </div>
+          </Link>
 
-        <div className="hidden items-center gap-3 md:flex">
-          <a href="tel:+918777080798" className="flex items-center gap-2 text-sm font-semibold text-foreground">
-            <Phone className="h-4 w-4 text-primary" /> +91 87770 80798
-          </a>
-          <a href="#join" className="btn-hero !px-4 !py-2 text-xs">Join Now</a>
-        </div>
-
-        <button onClick={() => setOpen(!open)} className="md:hidden" aria-label="Menu">
-          {open ? <X /> : <Menu />}
-        </button>
-      </div>
-
-      {open && (
-        <div className="border-t border-border bg-background md:hidden">
-          <div className="container-x flex flex-col gap-1 py-4">
+          {/* Desktop Nav */}
+          <nav className="hidden items-center gap-7 md:flex" aria-label="Main navigation">
             {NAV.map((n) => (
-              <Link
-                key={n.to}
-                to={n.to}
-                onClick={() => setOpen(false)}
-                className="py-2 text-sm font-semibold uppercase tracking-wider text-muted-foreground"
-                activeProps={{ className: "text-foreground" }}
-              >
+              <a key={n.href} href={n.href} className="nav-link">
                 {n.label}
-              </Link>
+              </a>
             ))}
-            <a href="tel:+918777080798" className="btn-hero mt-3">Call +91 87770 80798</a>
+          </nav>
+
+          {/* Desktop CTAs */}
+          <div className="hidden items-center gap-3 md:flex">
+            <a
+              href="tel:+918777080798"
+              className="flex items-center gap-1.5 text-[13px] font-semibold text-muted-foreground transition-colors hover:text-foreground"
+              aria-label="Call ABSolute Fitness GYM"
+            >
+              <Phone className="h-3.5 w-3.5 text-primary" />
+              +91 87770 80798
+            </a>
+            <a
+              href="https://wa.me/918777080798?text=Hi!%20I%20want%20to%20join%20ABSolute%20Fitness%20GYM"
+              target="_blank"
+              rel="noreferrer"
+              className="btn-whatsapp btn-sm"
+            >
+              💬 WhatsApp
+            </a>
+            <a href="#membership" className="btn-hero btn-sm">
+              Join Now
+            </a>
           </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setOpen(!open)}
+            className="rounded-md border border-border p-2 text-muted-foreground transition-colors hover:border-primary hover:text-primary md:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
-      )}
-    </header>
+
+        {/* Mobile Nav Drawer */}
+        {open && (
+          <nav
+            className="border-t border-border bg-background/98 backdrop-blur-xl md:hidden"
+            aria-label="Mobile navigation"
+          >
+            <div className="container-x flex flex-col gap-1 py-5">
+              {NAV.map((n) => (
+                <a
+                  key={n.href}
+                  href={n.href}
+                  onClick={() => setOpen(false)}
+                  className="nav-link border-b border-border py-3 text-base"
+                >
+                  {n.label}
+                </a>
+              ))}
+              <div className="mt-4 flex flex-col gap-3">
+                <a
+                  href="https://wa.me/918777080798?text=Hi!%20I%20want%20to%20join%20ABSolute%20Fitness%20GYM"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-whatsapp justify-center"
+                >
+                  💬 WhatsApp Us
+                </a>
+                <a href="#membership" className="btn-hero justify-center">
+                  🏋️ Join Now — Free Trial
+                </a>
+              </div>
+            </div>
+          </nav>
+        )}
+      </header>
+    </>
   );
 }

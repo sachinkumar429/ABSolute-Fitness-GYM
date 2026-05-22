@@ -1,37 +1,58 @@
-import equipmentImg from "@/assets/equipment.jpg";
-import crossfitImg from "@/assets/crossfit.jpg";
-import transformationImg from "@/assets/transformation.jpg";
-import womenImg from "@/assets/women-fitness.jpg";
-import heroImg from "@/assets/hero-gym.jpg";
-import t1 from "@/assets/trainer-1.jpg";
+import gallery1 from "@/assets/gallery-1.jpg";
+import gallery2 from "@/assets/gallery-2.jpg";
+import gallery3 from "@/assets/gallery-3.jpg";
+import gallery4 from "@/assets/gallery-4.jpg";
+import crossfit from "@/assets/crossfit.jpg";
 
-const IMAGES = [
-  { src: heroImg, alt: "Strength training floor" },
-  { src: equipmentImg, alt: "Premium dumbbell rack" },
-  { src: crossfitImg, alt: "CrossFit functional zone" },
-  { src: transformationImg, alt: "Member training" },
-  { src: womenImg, alt: "Women fitness coaching" },
-  { src: t1, alt: "Personal trainer" },
+const items = [
+  { src: gallery1, alt: "ABSolute Fitness GYM main training floor — Kasba Kolkata", icon: "🏋️", span: true },
+  { src: gallery2, alt: "Heavy barbell training at ABSolute Fitness GYM", icon: "💪", span: false },
+  { src: gallery3, alt: "Women's strength training at ABSolute Fitness GYM", icon: "❤️", span: false },
+  { src: crossfit, alt: "CrossFit area at ABSolute Fitness GYM", icon: "🏆", span: false },
+  { src: gallery4, alt: "Premium cardio zone at ABSolute Fitness GYM", icon: "🏃", span: false },
 ];
 
 export function Gallery() {
   return (
-    <section className="section">
+    <section id="gallery" className="section bg-background">
       <div className="container-x">
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="eyebrow"><span className="h-px w-8 bg-primary" /> Inside The Gym</div>
-          <h2 className="mt-4 text-4xl font-black md:text-5xl">A look <span className="text-gradient-red">inside</span></h2>
+        <div className="mb-14 text-center">
+          <div className="eyebrow mb-4">Inside ABSolute Fitness</div>
+          <h2 className="font-display text-5xl md:text-6xl">
+            Our <span className="text-gradient-red">Gallery</span>
+          </h2>
+          <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
+            A glimpse into the premium world of ABSolute Fitness GYM — where champions are made.
+          </p>
         </div>
-        <div className="mt-14 grid auto-rows-[200px] grid-cols-2 gap-3 md:grid-cols-4 md:auto-rows-[220px]">
-          {IMAGES.map((img, i) => (
+
+        <div
+          className="grid gap-3"
+          style={{
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gridTemplateRows: "260px 260px",
+          }}
+        >
+          {items.map((item, i) => (
             <div
-              key={i}
-              className={`group relative overflow-hidden rounded-xl ${
-                i === 0 ? "col-span-2 row-span-2" : ""
-              } ${i === 3 ? "md:row-span-2" : ""}`}
+              key={item.alt}
+              className="group relative overflow-hidden rounded-xl cursor-pointer"
+              style={item.span ? { gridRow: "span 2" } : {}}
             >
-              <img src={img.src} alt={img.alt} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/70 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+              <img
+                src={item.src}
+                alt={item.alt}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div
+                className="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-300 group-hover:opacity-100"
+                style={{ background: "rgba(232,0,13,0.5)" }}
+              >
+                <span className="text-4xl transform scale-75 transition-transform duration-300 group-hover:scale-100">
+                  {item.icon}
+                </span>
+              </div>
             </div>
           ))}
         </div>
